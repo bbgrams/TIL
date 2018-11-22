@@ -1,0 +1,120 @@
+2018.09.03 프론트엔드 개발 스쿨 1일차
+프론트엔드. 프레임워크.리액트.
+redux, react router
+
+*생산성 향상을 위한 도구
+ git, github
+ visual studio code
+ chrome 개발자도구 
+ 애자일 개발 프로세스
+
+
+윈도우 : git bash 
+@@@@@git bash에서 사용하는 명령어들@@@@
+cd : change directory : 디렉터리를 변경함
+@@세가지 아주 자주 쓰임@@
+cd .. : 상위 디렉토리로 간다.
+cd / : 최상위 디렉토리 까지 간다. / (나는 C드라이브)
+cd ~ : home directory로 간다.
+cd . :
+
+ex) cd ~/Documents  : 홈 디렉터리에서 도큐먼츠라는 폴더로 이동
+
+
+상대경로 : 현재 내가 위치하고 있는 디렉토리에 따라 상위 디렉토리가 달라짐. 
+절대경로 : 현재 내가 위치하고있는 디렉토리와 상관없이 위치 표현 
+
+ls -a : 리스트에서 모든 파일을 보여준다(숨김파일 포함)
+ls- l : 리스트에서 공개되어있는 파일의 부가정보를 보여준다
+ls -al : 리스트에서 숨김파일을 포함한 모든 파일의 부가정보를 보여준다 
+
+mkdir fds : fds라는 디렉토리 생성
+touch hello :hello 라는 빈 파일 생성
+cp hello bye : hello라는 파일을 복사(cp-copy)해서 bye라는 이름으로 저장.
+cp ./hello ./hello2 : 절대경로, 상대경로 모두 사용 가능
+mv bye ~/bye : fds에 있는 bye를 ~/(홈디렉터리)로 이동(mv-move).
+ >>리눅스에는 파일 이름 변경하는 명령어가 없어 mv를 이용한다 > mv hello hi : hello라는 파일 이름이 hi로 변경됨
+rm hi : hi라는 파일을 삭제(rm-remove)
+rmdir fds : fds라는 디렉토리를 삭제(remove directory)
+
+touch fds/hello : fds라는 폴더 안에 hello라는 파일을 생성
+rmdir fds : fds라는 디렉토리를 삭제. (git bash에서는 폴더 안에 파일이 있으면 안지워짐)
+ >> 폴더 안에 파일이 있을 경우 : rm -rf fds: fds 라는 폴더를 강제로 다 지우겠다(폴더 안에 파일이 있더라도)
+ >> >> rm -rf / :최상위 디렉토리를 모두 지우겠다는 명령어이기 때문에 컴퓨터가 몽땅 날아갈 수 있따....조심조심..
+
+cat hello.html : hello.html 안의 내용을 출력해준다
+less hello.html : hello.html의 내용이 출력되지만 스크롤 기능이 있는 창이 뜨기 때문에 긴 텍스트 파일을 보고싶을 때 사용. (q를 눌러서 빠져나올 수 이씀)
+ >> /class : slash(/) 하고 단어를 쓰면 해당 단어를 찾을 수 있음(ctrl+f처럼)
+
+tail hello.html : hello.html 파일의 마지막 몇줄(10줄?)만 출력해줌.
+
+start hello.html : hello.html 파일 실행(웹 브라우저 뜸)
+
+nano hello.html : 해당 파일을 수정 할 수 있는 창이 뜸.
+ >> ^(ctrl표시)O를 누르면 저장 후 종료 됨
+
+vim hello.html : nano와 비슷하게 수정 할 수 있는 창이 뜬다. 하지만 정해져있는 단축키를 이용해야만 수정이 가능.
+(복잡한 에디터이지만 확장 프로그램을 이용할 수 있기때문에 개발자들이 좋아하는 확장 프로그램이다-지젼어렵)
+
+@@@@@ //git bash에서 사용하는 명령어들@@@@
+
+
+
+
+
+
+
+2018.09.04 프론트엔드 개발 스쿨 2일차
+
+
+@@ Visual Studio Code @@ 
+code . : 현재 디렉터리의 코드 수정을 위해 비쥬얼 스투디오 코드가 열림
+code hello.txt : hello.txt의 코드수정을 위해 VSC가 열림
+
+@@Markdwon@@
+project.md : .md 라는 확장자가 마크다운의 확장자임.
+
+@@Git@@
+현재 fds라는 폴더를 Git 작업 디렉토리로 만들었다.(git init 을 하면 해당 폴더가 git영역이 된다)
+git add hello_ex.txt practice.md : 스테이징영역(임시영역)에 해당 파일 저장
+    >>(폴더를 올리고 싶을때는 폴더명을 입력함. 폴더가 빈폴더일 경우에는 올라가지 않음.)
+git commit -m "first commit" :  스테이징 영역에만 있는 임시파일들을 git저장소에 완전 보관.
+    >> -m "first commin" : git 저장소에 완전 보관하면서  "first commit" 이라는 메세지를 박아넣음.
+
+git은 ftp처럼 파일 자체를 올리고 지우는게 아니라
+파일의 변경 사항을 내역을 커밋하는것이다. (몰라,,)
+
+…or create a new repository on the command line : 처음 저장소를 만들 때
+…or push an existing repository from the command line : 이미 있는 저장소를 올릴때 (난 fds에 저장소 만들었으니 이걸올리면 됨)
+
+git remote add origin https://github.com/bbgrams/fds-git.git
+git push -u origin master : 변경사항을 업로드 하는 시행어
+
+
+<!---순서--->
+git status
+git add .
+git status
+git commit -m "수정"
+git status
+git push
+-------------//>
+
+git log : git 저장 내역 히스토리 확인
+
+rocal 저장소 (내컴퓨터 저장소), remote 저장소 (다른 컴퓨터, 서버, 원격의 저장소)
+git commit : 로컬 저장소에 커밋
+git push : 리모트 저장소에 올림
+git pull : 리모트 저장소에 올려져있는 내용을 내 로컬 저장소(내컴퓨터)로 가져옴.
+
+
+*******Git은 무료로 이용하려면 무조건 공개적으로 소스를 올려야한다.
+무료로 사용 가능한 비공개저장소 : http://bitbucket.org/ . https://about.gitlab.com
+
+
+@@SourceTree@@
+git을 관리해주는 프로그램 
+커밋,푸쉬,풀 모두 할 수 있지만 좀 더 편하고
+목록 보기가 쉬움.
+
+
