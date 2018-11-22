@@ -459,7 +459,7 @@ react : A > B > C
 html : root > A > B , portar > C
 ```
 
-ㅎㅎㅎㅎㅎ?
+### 추상, 구상
 
 
 
