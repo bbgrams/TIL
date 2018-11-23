@@ -465,6 +465,125 @@ html : root > A > B , portar > C
 
 
 
+# 2018-11-23
+
+## 고차 컴포넌트(Higher-Order Components)
+
+컴포넌트
+- 리액트 클래스를 상속받은 컴포넌트
+- 엘리먼트를 반환하는 함수형 컴포넌트
+
+고차 컴포넌트는 컴포넌트로 사용할 수 없다. 컴포넌트를 만들어낼때 사용된다.
+
+### 횡단 관심사를 위해 HOC 사용하기.
+
+여러가지 페이지에서 공통적으로 사용되는 기능.(ex. 로그인)
+
+```js
+const CommentListWithSubscription =  withSubscription(
+  CommentList,
+  (DataSource) => DataSource.getComments()
+);
+```
+컴포넌트(CommentList)와 업그레이드 할 설정((DataSource) => DataSource.getComments())을 넘겨서 컴포넌트(CommentListWithSubscription)를 새로 만들어낸다.
+
+```js
+// This function takes a component...
+function withSubscription(WrappedComponent, selectData) {
+  // ...and returns another component...
+  return class extends React.Component { // 익명 클래스 컴포넌트가 반환된다.
+    constructor(props) {
+      super(props);
+      this.handleChange = this.handleChange.bind(this);
+      this.state = {
+        data: selectData(DataSource, props)
+      };
+    }
+
+    componentDidMount() {
+      // ... that takes care of the subscription...
+      DataSource.addChangeListener(this.handleChange);
+    }
+
+    componentWillUnmount() {
+      DataSource.removeChangeListener(this.handleChange);
+    }
+
+    handleChange() {
+      this.setState({
+        data: selectData(DataSource, this.props)
+      });
+    }
+
+    render() {
+      // ... and renders the wrapped component with the fresh data!
+      // Notice that we pass through any additional props
+      return <WrappedComponent data={this.state.data} {...this.props} />;
+    }
+    // 업그레이드 된 새로운 컴포넌트에서는 인수로 되
+    // 고차함수에서 첫번쨰 인수로 컴포넌트가 들어옴(commentList, )
+    // 컴포넌트를 받아서 기능을 추가해서 다시 그려준다.
+  };
+}
+```
+
+HOC는 입력받은 컴포넌트를 수정하지도, 상속받지도 않는다.
+
+대신 HOC는 원래의 컴포넌트를 다른 컴포넌트로 감싸는 식으로 합성한다.
+
+HOC는 부작용을 갖지 않는 순수함수이다.
+
+
+
+### 원래 컴포넌트를 변경하지 마세요. 합성을 사용하세요.
+
+새로운 컴포넌트를 만들고, 기능을 추가하고, 컴포넌트를 다시 그려주는 방식을 사용하라.
+
+
+### 관례: HOC와 무관한 prop은 감싸진 컴포넌트에 넘기세요.
+
+### 관례: 합성을 최대한 활용하세요.
+
+```js
+// HOC의 가장 일반적인 모양
+// React Redux's `connect`
+const ConnectedComment = connect(commentSelector, commentActions)(CommentList);
+// connect : 고차 컴포넌트를 반환하는 함수
+```
+connect 첫번쨰 괄호까지 실행되면 고차컴포넌트가 튀어나온다. 그 함수의 인수를 CommentList를 주면 업그레이드된 컴포넌트가 튀어나온다.
+
+connect를 사용하여 단일 인자를 받는 HOC를 만들어낸다. 단일 인자를 받는 HOC는 함수 합성이 쉬우므로
+
+```js
+const enhance = C => withRouter(connect(commentSelector)(C))
+```
+
+### 관례: 원활한 디버깅을 위해 displayName도 감싸주세요
+
+고차함수의 단점 : 계층이 복잡해진다.
+
+```js
+WithUser.displayName = 'WithUser(!!!)' 
+// 개발자도구에서 알아보기 쉽게 displayName에 이름을 넣어줄수있다. 리액트만의 기능
+```
+
+### 주의사항
+
+1. HOC는 단 한번만 적용되게 만들어야한다.
+    - render() 메소드 안에서 HOC를 사용하면 렌더링될때마다 새로운 컴포넌트가 만들어지고...
+
+1. Ref는 전달되지 않는다.
+    - Ref가 아닌 다른 이름(innerRef)으로 Ref객체를 받아서 아래로 넘길 수 있다.
+
+
+
+
+
+
+
+
+
+
 
 
 
