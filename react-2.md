@@ -577,6 +577,45 @@ WithUser.displayName = 'WithUser(!!!)'
 
 
 
+## 브라우저 히스토리 조작하기
+
+[브라우저 히스토리 조작하기](https://developer.mozilla.org/ko/docs/Web/API/History_API)
+
+- 브라우저는 조작 내용을 history stack에 저장한다. 
+
+- SPA(Single Page App) : html파일 한개만으로 페이지를 조작하는것.
+
+- MPA(Multiple Page App) : html파일 여러개를 가지고 조작하는것
+
+
+### 히스토리 엔트리의 추가 및 변경
+
+직접 history stack에 push를 할 수 있다.
+
+1. pushState()
+
+```js
+var stateObj = {foo : "bar"}; 
+history.pushState(stateObj, "page 2", "bar.html");
+```
+주소표시줄에 표시되는 주소를 바꿀 수 있다.
+뒤로가기 버튼을 누르면 바뀌기 전 주소로 돌아간다
+
+1. undo, redo
+- 스택을 두 개 두고, undo 한 A를 2번째 스택에 넣고 redo하면 2번쨰 스택의 A를 꺼내서 첫번째 스택에 다시 넣는다.
+
+1. `pushState()`, `popState()`, `hashState()`를 이용해서 리액트로도 뒤로가기 앞으로가기 등의 기능을 갖는 페이지를 만들 수 있다.
+
+
+### 코드펜 실습
+[pushState](https://codepen.io/Shim-SoYoung/pen/MzVXmy)
+
+
+
+
+
+
+
 
 
 
