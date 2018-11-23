@@ -612,14 +612,134 @@ history.pushState(stateObj, "page 2", "bar.html");
 
 
 
+## 리액트 라우터 ROUTER (v4)
 
+- v3과 v4가 많이 다르다.
 
+1. "react-router-dom"
 
+    - Router : provider과 비슷한 느낌
+    - Route, Link : consumer와 비슷한 느낌
 
+    - <link> 컴포넌트를 쓰면 <a> 태그로 변환된다. : preventDefault()하고 pushState()를 한다
 
+```js
+import React from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
+function BasicExample() {
+  return (
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+          <li>
+            <Link to="/topics">Topics</Link>
+          </li>
+        </ul>
 
+        <hr />
 
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/topics" component={Topics} />
+      </div>
+    </Router>
+  );
+}
+
+function Home() {
+  return (
+    <div>
+      <h2>Home</h2>
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <div>
+      <h2>About</h2>
+    </div>
+  );
+}
+
+function Topics({ match }) {
+  return (
+    <div>
+      <h2>Topics</h2>
+      <ul>
+        <li>
+          <Link to={`${match.url}/rendering`}>Rendering with React</Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/components`}>Components</Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
+        </li>
+      </ul>
+
+      <Route path={`${match.path}/:topicId`} component={Topic} />
+      <Route
+        exact
+        path={match.path}
+        render={() => <h3>Please select a topic.</h3>}
+      />
+    </div>
+  );
+}
+
+function Topic({ match }) {
+  return (
+    <div>
+      <h3>{match.params.topicId}</h3>
+    </div>
+  );
+}
+
+export default BasicExample;
+```
+
+1. ` <Route exact path="/" component={Home} />` : path가 `/`와 같다면 `{Home}`을 그려라.
+
+1. match prop을 받고 match prop에는 여러가지 정보가 들어있다.
+
+1. <BrowserRouter />, <HashRouter /> 
+    - 둘 중에 한가지로 전체를 감싸주어야한다.
+
+1. `<Redirect />` 
+    - 리다이렉트 컴포넌트를 그리는것만으로 주소가 바뀐다. 화면에 그리기만해도 주소가 바뀐다.
+    - 부작용을 일으키는 컴포넌트
+    - 마운트 되는 순간 주소가 바뀐다.
+    - 주소를 바꿔주어야 하는 시점(사용자가 버튼을 클릭하지않더라도 페이지를 바꿔주어야하는경우(로그인 했을 때, 게시글을 올렸을 때, 로그아웃 했을 떄 등..))에 사용한다.
+
+1. [리액트 라우터 실습 - 가짜 게시판 만들기](https://codesandbox.io/s/vmv30n2pr3)
+
+1. 브라우저의 주소표시줄이라는 상태를 다루는 라이브러리이다.
+
+1. 사용자가 불편하지않게 즐겨찾기(북마크)를 할만한 페이지에는 모두 각자 다른 주소가 붙어있어야 한다
+
+1. `Route`는 `if`처럼 동작하지 `if else` 처럼 동작하지 않는다.
+
+1. `Route` 를 여러개 적어주면 같은 주소에서 여러개의 컴포넌트가 출력된다.
+
+1. `switch` 라는 컴포넌트를 둘러주면 if else처럼 동작하게 할 수 있다.
+
+1. switch 로 둘러주지 않았을 때
+    - <Route component={NotFound} /> 처럼 path를 설정해 주지 않으면 모든 페이지에서 해당 페이지가 출력된다.
+
+1. switch 로 둘러주었을 때
+    - <Route component={NotFound} /> 잘못된 주소에 갔을 때만 해당 페이지가 출력된다.
+
+1. switch 안에 Route를 입력할 때는 순서를 신경써서 써주어야한다 (위에서부터 동작하기떄문에-if else처럼)
+
+1. 구체적인 주소를 쓸 때 위쪽에서 먼저 설정해주어야 한다.
 
 
 
